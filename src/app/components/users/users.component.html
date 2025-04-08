@@ -1,0 +1,29 @@
+<h2>Lista de Usuarios Registrados</h2>
+<ul>
+  <li *ngFor="let user of users">
+    <div *ngIf="selectedUser?.uid === user.uid; else viewMode">
+      <input [(ngModel)]="selectedUser.email" placeholder="Nuevo correo" />
+      
+      <div *ngIf="auth.currentUser?.uid === user.uid">
+        <input [(ngModel)]="passwordForUpdate" type="password" placeholder="Tu contraseña" />
+      </div>
+
+      <!-- Verificar correo -->
+      <div *ngIf="!emailVerified">
+        <button (click)="verifyEmail()">Verificar Correo</button>
+      </div>
+
+      <!-- Solo mostrar cuando el correo esté verificado -->
+      <div *ngIf="emailVerified">
+        <button (click)="updateUser()">Guardar cambios</button>
+      </div>
+
+      <button (click)="cancelEdit()">Cancelar</button>
+    </div>
+    <ng-template #viewMode>
+      {{ user.email }}
+      <button (click)="editUser(user)">Editar</button>
+      <button (click)="deleteUser(user.uid)">Eliminar</button>
+    </ng-template>
+  </li>
+</ul>
